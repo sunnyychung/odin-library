@@ -10,7 +10,7 @@ const dialog = document.getElementById("dialog")
 const confirmBtn = document.getElementById("confirmBtn")
 const closeBtn = document.getElementById("closeBtn")
 
-function addInformation(book) {
+function addInformation(book, index) {
   const card = document.createElement("div");
   card.classList.add("book")
 
@@ -23,8 +23,10 @@ function addInformation(book) {
   updateRead.classList.add("updateRead");
 
   const removeBtn = document.createElement("button");
+  removeBtn.setAttribute("data-index", `${index}`);
   removeBtn.textContent = "Remove";
   removeBtn.classList.add("removeBtn");
+  removeBtn.addEventListener("click", removeBook);
 
   card.appendChild(updateRead);
   card.appendChild(info);
@@ -33,9 +35,15 @@ function addInformation(book) {
 }
 
 function showBooks(array) {
-  array.forEach((book) => {
-    addInformation(book);
+  array.forEach((book, index) => {
+    addInformation(book, index);
   })
+}
+
+function removeBook(event) {
+  const index = event.target.getAttribute('data-index');
+  myLibrary.splice(index, 1);
+  event.target.parentElement.remove();
 }
 
 function Book(author, title, pages, read) {
@@ -48,7 +56,7 @@ function Book(author, title, pages, read) {
 function addBookToLibrary(author, title, pages, read) {
   const newBook = new Book(author, title, pages, read);
 
-  addInformation(newBook);
+  addInformation(newBook, myLibrary.length);
   myLibrary.push(newBook);
 }
 
