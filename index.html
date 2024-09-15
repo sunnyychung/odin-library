@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main">
+        <div class="controls">
+            <button id="createBtn">Create New Book</button>
+            <dialog id="dialog">
+                <form>
+                    <fieldset id="bookinfo">
+                        <label for="bookauthor">Book Author:</label>
+                        <input id="bookauthor" name="bookauthor" type="text">
+
+                        <label for="bookname">Book Name:</label>
+                        <input id="bookname" name="bookname" type="text">
+
+                        <label for="bookpages">Pages</label>
+                        <input id="bookpages" name="bookpages" type="text">
+
+                        <label for="bookread">Read:</label>
+                        <input id="bookread" name="bookread" type="checkbox">
+                    </fieldset>
+                    <br>
+                    <button id="confirmBtn">Submit</button>
+                    <button id="closeBtn" formmethod="dialog">Close</button>
+                </form>
+            </dialog>
+        </div>
+        <div class="books">
+
+        </div>
+    </div>
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
