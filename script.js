@@ -1,8 +1,6 @@
-const myLibrary = [{author: "George R.R. Martin",
-  title: "A Game of Thrones",
-  pages: 694,
-  read: true
-}];
+const myLibrary = [
+  // new Book("George R.R. Martin", "A Game of Thrones", 694, true)
+];
 
 const main = document.querySelector(".books")
 const createBtn = document.getElementById("createBtn")
@@ -18,9 +16,10 @@ function addInformation(book, index) {
   info.classList.add("bookInfo")
   info.textContent = `${book.author}, ${book.title}, ${book.pages}, ${book.read}`;
 
-  const updateRead = document.createElement("button");
-  updateRead.textContent = "Read";
-  updateRead.classList.add("updateRead");
+  const readBtn = document.createElement("button");
+  readBtn.textContent = "Read";
+  readBtn.classList.add("readBtn");
+  readBtn.addEventListener("click", updateRead);
 
   const removeBtn = document.createElement("button");
   removeBtn.setAttribute("data-index", `${index}`);
@@ -28,7 +27,7 @@ function addInformation(book, index) {
   removeBtn.classList.add("removeBtn");
   removeBtn.addEventListener("click", removeBook);
 
-  card.appendChild(updateRead);
+  card.appendChild(readBtn);
   card.appendChild(info);
   card.appendChild(removeBtn);
   main.append(card);
@@ -40,10 +39,28 @@ function showBooks(array) {
   })
 }
 
+function updateRead(event) {
+  const index = event.target.parentElement.querySelector(".removeBtn").getAttribute('data-index');
+  myLibrary[index].updateRead();
+  event.target.parentElement.querySelector(".bookInfo").textContent = `${myLibrary[index].author}, ${myLibrary[index].title}, ${myLibrary[index].pages}, ${myLibrary[index].read}`;
+}
+
+Book.prototype.updateRead = function() {
+  this.read = !this.read;
+}
+
+function updateIndex() {
+  const removeBtns = document.querySelectorAll(".removeBtn").forEach((button, index) => {
+    button.setAttribute("data-index", `${index}`);
+  });
+}
+
 function removeBook(event) {
   const index = event.target.getAttribute('data-index');
   myLibrary.splice(index, 1);
   event.target.parentElement.remove();
+
+  updateIndex();
 }
 
 function Book(author, title, pages, read) {
@@ -75,9 +92,5 @@ confirmBtn.addEventListener("click", () => {
   addBookToLibrary(bookAuthor, bookName, bookPages, bookRead);
   dialog.close();
 })
-
-
-
-
 
 showBooks(myLibrary);
