@@ -81,16 +81,17 @@ createBtn.addEventListener("click", () => {
   dialog.showModal();
 })
 
-confirmBtn.addEventListener("click", () => {
-  event.preventDefault()
+document.querySelector("form").addEventListener("submit", (event) => {
+  event.preventDefault();
 
   const bookAuthor = document.querySelector("#bookauthor").value;
   const bookName = document.querySelector("#bookname").value;
   const bookPages = document.querySelector("#bookpages").value;
-  const bookRead = document.querySelector("#bookread").checked ? true : false;
+  const bookRead = document.querySelector("#bookread").checked;
 
   addBookToLibrary(bookAuthor, bookName, bookPages, bookRead);
   dialog.close();
-})
+});
+
 
 showBooks(myLibrary);
