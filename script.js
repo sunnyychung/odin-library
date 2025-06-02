@@ -8,45 +8,44 @@ const dialog = document.getElementById("dialog")
 const confirmBtn = document.getElementById("confirmBtn")
 const closeBtn = document.getElementById("closeBtn")
 
-function addInformation(book, index) {
-  const card = document.createElement("div");
-  card.classList.add("book")
+class Book {
+  constructor(author, title, pages, read) {
+    this.author = author;
+    this.title = title;
+    this.pages = pages;
+    this.read = read;
+  }
 
-  const info = document.createElement("div");
-  info.classList.add("bookInfo")
-  info.textContent = `${book.author}, ${book.title}, ${book.pages}, ${book.read}`;
+  addInformation() {
+    const card = document.createElement("div");
+    card.classList.add("book")
 
-  const readBtn = document.createElement("button");
-  readBtn.textContent = "Read";
-  readBtn.classList.add("readBtn");
-  readBtn.addEventListener("click", updateRead);
+    const info = document.createElement("div");
+    info.classList.add("bookInfo")
+    info.textContent = `${this.author}, ${this.title}, ${this.pages}, ${this.read}`;
 
-  const removeBtn = document.createElement("button");
-  removeBtn.setAttribute("data-index", `${index}`);
-  removeBtn.textContent = "Remove";
-  removeBtn.classList.add("removeBtn");
-  removeBtn.addEventListener("click", removeBook);
+    const readBtn = document.createElement("button");
+    readBtn.textContent = "Read";
+    readBtn.classList.add("readBtn");
+    readBtn.addEventListener("click", updateRead);
 
-  card.appendChild(readBtn);
-  card.appendChild(info);
-  card.appendChild(removeBtn);
-  main.append(card);
-}
+    const removeBtn = document.createElement("button");
+    removeBtn.setAttribute("data-index", myLibrary.length);
+    removeBtn.textContent = "Remove";
+    removeBtn.classList.add("removeBtn");
+    removeBtn.addEventListener("click", removeBook);
 
-function showBooks(array) {
-  array.forEach((book, index) => {
-    addInformation(book, index);
-  })
+    card.appendChild(readBtn);
+    card.appendChild(info);
+    card.appendChild(removeBtn);
+    main.append(card);
+  }
 }
 
 function updateRead(event) {
   const index = event.target.parentElement.querySelector(".removeBtn").getAttribute('data-index');
   myLibrary[index].updateRead();
   event.target.parentElement.querySelector(".bookInfo").textContent = `${myLibrary[index].author}, ${myLibrary[index].title}, ${myLibrary[index].pages}, ${myLibrary[index].read}`;
-}
-
-Book.prototype.updateRead = function() {
-  this.read = !this.read;
 }
 
 function updateIndex() {
@@ -63,17 +62,10 @@ function removeBook(event) {
   updateIndex();
 }
 
-function Book(author, title, pages, read) {
-  this.author = author;
-  this.title = title;
-  this.pages = pages;
-  this.read = read;
-}
-
 function addBookToLibrary(author, title, pages, read) {
   const newBook = new Book(author, title, pages, read);
 
-  addInformation(newBook, myLibrary.length);
+  newBook.addInformation();
   myLibrary.push(newBook);
 }
 
@@ -92,6 +84,3 @@ document.querySelector("form").addEventListener("submit", (event) => {
   addBookToLibrary(bookAuthor, bookName, bookPages, bookRead);
   dialog.close();
 });
-
-
-showBooks(myLibrary);
