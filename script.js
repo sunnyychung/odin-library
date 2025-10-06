@@ -8,6 +8,11 @@ const dialog = document.getElementById("dialog")
 const confirmBtn = document.getElementById("confirmBtn")
 const closeBtn = document.getElementById("closeBtn")
 
+const bookAuthor = document.querySelector("#bookauthor");
+const bookName = document.querySelector("#bookname");
+const bookPages = document.querySelector("#bookpages");
+const bookRead = document.querySelector("#bookread");
+
 class Book {
   constructor(author, title, pages, read) {
     this.author = author;
@@ -69,18 +74,41 @@ function addBookToLibrary(author, title, pages, read) {
   myLibrary.push(newBook);
 }
 
+// Client Side Validation Lesson
+
+function checkValid(element) {
+  if (!element.validity.valid) {
+    element.setCustomValidity("Oops! You need to enter something.");  
+  }
+  else {
+    element.setCustomValidity("");
+  }
+}
+
+function validatePage() {
+  if (!bookPages.validity.valid) {
+    bookPages.setCustomValidity("Hopefully your book has pages.");
+  }
+  else {
+    bookPages.setCustomValidity("");
+  }
+}
+
 createBtn.addEventListener("click", () => {
   dialog.showModal();
+})
+
+closeBtn.addEventListener("click", () => {
+  dialog.close();
 })
 
 document.querySelector("form").addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const bookAuthor = document.querySelector("#bookauthor").value;
-  const bookName = document.querySelector("#bookname").value;
-  const bookPages = document.querySelector("#bookpages").value;
-  const bookRead = document.querySelector("#bookread").checked;
-
-  addBookToLibrary(bookAuthor, bookName, bookPages, bookRead);
+  addBookToLibrary(bookAuthor.value, bookName.value, bookPages.value, bookRead.checked);
   dialog.close();
 });
+
+bookAuthor.addEventListener("input", () => checkValid(bookAuthor));
+bookName.addEventListener("input", () => checkValid(bookName));
+bookPages.addEventListener("input", () => validatePage());
